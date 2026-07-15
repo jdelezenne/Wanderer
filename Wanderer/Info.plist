@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Wanderer shows photos you took near your trip route as part of your trip recap.</string>
+	<key>NSCameraUsageDescription</key>
+	<string>Wanderer uses the camera to show AR exploration markers over the real world.</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>Wanderer uses your location to center the map and draw your walking path while you explore.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>Wanderer can continue recording an active trip path when the app is in the background.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>Wanderer uses motion data to count steps and estimate walking distance.</string>
+	<key>NSSupportsLiveActivities</key>
+	<true/>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
+	<key>UIApplicationSceneManifest</key>
+	<dict>
+		<key>UIApplicationSupportsMultipleScenes</key>
+		<false/>
+		<key>UISceneConfigurations</key>
+		<dict>
+			<key>UIWindowSceneSessionRoleApplication</key>
+			<array>
+				<dict>
+					<key>UISceneConfigurationName</key>
+					<string>Default Configuration</string>
+					<key>UISceneDelegateClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+				</dict>
+			</array>
+		</dict>
+	</dict>
+</dict>
+</plist>

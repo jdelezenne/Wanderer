@@ -1,0 +1,552 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		14F35D15BA2ACB5B58623793 /* TripActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7C3FDE2D5F247F42F66FCF /* TripActivityAttributes.swift */; };
+		402A87FA416F1DC8CD0C4C83 /* WandererWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C149E33BE8CA4D10F2CB91E /* WandererWidgetBundle.swift */; };
+		4C09D50AC6E642C0247D1F3A /* TripActivityAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC7C3FDE2D5F247F42F66FCF /* TripActivityAttributes.swift */; };
+		9DBF8C05B3AF7965C9BFEF26 /* WandererWidgetLiveActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 78D9912563D6123B722DEE63 /* WandererWidgetLiveActivity.swift */; };
+		A2144E5C00CCC32CB2A91310 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25024396DB5FD1F1DCC753B8 /* Formatters.swift */; };
+		A4029E8963C89B595FB30FD2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8B9CD0E7944E526F9383DD52 /* Assets.xcassets */; };
+		E1FFD1E9DAD815B6F9B03FC3 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81F68B87C1DA7B2817720B54 /* Foundation.framework */; };
+		EA7EBAB986B57F86F1B9EA1D /* WandererWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 421E4D54E8A4AAAF1BDB7DE7 /* WandererWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		FDD1EF5E17B9584ACA8903B1 /* Formatters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25024396DB5FD1F1DCC753B8 /* Formatters.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		277BD519FD0DE73FD31E7243 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3F6ABA0E3004A5110067044E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DBE152CDE16D12A675B6E989;
+			remoteInfo = WandererWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1DE0BDF80D1A952D07D9DDFE /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				EA7EBAB986B57F86F1B9EA1D /* WandererWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		25024396DB5FD1F1DCC753B8 /* Formatters.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = Formatters.swift; sourceTree = "<group>"; };
+		3C149E33BE8CA4D10F2CB91E /* WandererWidgetBundle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WandererWidgetBundle.swift; sourceTree = "<group>"; };
+		3F6ABA163004A5110067044E /* Wanderer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Wanderer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		421E4D54E8A4AAAF1BDB7DE7 /* WandererWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = WandererWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		78D9912563D6123B722DEE63 /* WandererWidgetLiveActivity.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = WandererWidgetLiveActivity.swift; sourceTree = "<group>"; };
+		81F68B87C1DA7B2817720B54 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS26.0.sdk/System/Library/Frameworks/Foundation.framework; sourceTree = DEVELOPER_DIR; };
+		8B9CD0E7944E526F9383DD52 /* Assets.xcassets */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CC7C3FDE2D5F247F42F66FCF /* TripActivityAttributes.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TripActivityAttributes.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		3F6ABA223004A5120067044E /* Exceptions for "Wanderer" folder in "Wanderer" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 3F6ABA153004A5110067044E /* Wanderer */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		3F6ABA183004A5110067044E /* Wanderer */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				3F6ABA223004A5120067044E /* Exceptions for "Wanderer" folder in "Wanderer" target */,
+			);
+			path = Wanderer;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		3F6ABA133004A5110067044E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		67CADB25E124E235323555E3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				E1FFD1E9DAD815B6F9B03FC3 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0DD419AA352A7135C08DE458 /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				CC7C3FDE2D5F247F42F66FCF /* TripActivityAttributes.swift */,
+				25024396DB5FD1F1DCC753B8 /* Formatters.swift */,
+			);
+			name = Shared;
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		3F6ABA0D3004A5110067044E = {
+			isa = PBXGroup;
+			children = (
+				3F6ABA183004A5110067044E /* Wanderer */,
+				3F6ABA173004A5110067044E /* Products */,
+				0DD419AA352A7135C08DE458 /* Shared */,
+				968C7D211F615C00B77BB280 /* Frameworks */,
+				A367D6CB6BD92C9EFB4AE1C9 /* WandererWidget */,
+			);
+			sourceTree = "<group>";
+		};
+		3F6ABA173004A5110067044E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3F6ABA163004A5110067044E /* Wanderer.app */,
+				421E4D54E8A4AAAF1BDB7DE7 /* WandererWidget.appex */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		968C7D211F615C00B77BB280 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DD614A6D683251FE5B5FB77D /* iOS */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		A367D6CB6BD92C9EFB4AE1C9 /* WandererWidget */ = {
+			isa = PBXGroup;
+			children = (
+				3C149E33BE8CA4D10F2CB91E /* WandererWidgetBundle.swift */,
+				78D9912563D6123B722DEE63 /* WandererWidgetLiveActivity.swift */,
+				8B9CD0E7944E526F9383DD52 /* Assets.xcassets */,
+			);
+			name = WandererWidget;
+			path = WandererWidget;
+			sourceTree = "<group>";
+		};
+		DD614A6D683251FE5B5FB77D /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				81F68B87C1DA7B2817720B54 /* Foundation.framework */,
+			);
+			name = iOS;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3F6ABA153004A5110067044E /* Wanderer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3F6ABA233004A5120067044E /* Build configuration list for PBXNativeTarget "Wanderer" */;
+			buildPhases = (
+				3F6ABA123004A5110067044E /* Sources */,
+				3F6ABA133004A5110067044E /* Frameworks */,
+				3F6ABA143004A5110067044E /* Resources */,
+				1DE0BDF80D1A952D07D9DDFE /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				B50280778EB8E3856635AA00 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				3F6ABA183004A5110067044E /* Wanderer */,
+			);
+			name = Wanderer;
+			productName = Wanderer;
+			productReference = 3F6ABA163004A5110067044E /* Wanderer.app */;
+			productType = "com.apple.product-type.application";
+		};
+		DBE152CDE16D12A675B6E989 /* WandererWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 88CE05EE4C0C5FFF72E40E93 /* Build configuration list for PBXNativeTarget "WandererWidget" */;
+			buildPhases = (
+				FD447A37AF1F0506EE038C3E /* Sources */,
+				67CADB25E124E235323555E3 /* Frameworks */,
+				705C24B8FB683753FF9F0C9B /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = WandererWidget;
+			productName = WandererWidget;
+			productReference = 421E4D54E8A4AAAF1BDB7DE7 /* WandererWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		3F6ABA0E3004A5110067044E /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2660;
+				LastUpgradeCheck = 2660;
+				TargetAttributes = {
+					3F6ABA153004A5110067044E = {
+						CreatedOnToolsVersion = 26.6;
+					};
+				};
+			};
+			buildConfigurationList = 3F6ABA113004A5110067044E /* Build configuration list for PBXProject "Wanderer" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 3F6ABA0D3004A5110067044E;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 3F6ABA173004A5110067044E /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3F6ABA153004A5110067044E /* Wanderer */,
+				DBE152CDE16D12A675B6E989 /* WandererWidget */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		3F6ABA143004A5110067044E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		705C24B8FB683753FF9F0C9B /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A4029E8963C89B595FB30FD2 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		3F6ABA123004A5110067044E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4C09D50AC6E642C0247D1F3A /* TripActivityAttributes.swift in Sources */,
+				FDD1EF5E17B9584ACA8903B1 /* Formatters.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		FD447A37AF1F0506EE038C3E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				402A87FA416F1DC8CD0C4C83 /* WandererWidgetBundle.swift in Sources */,
+				9DBF8C05B3AF7965C9BFEF26 /* WandererWidgetLiveActivity.swift in Sources */,
+				14F35D15BA2ACB5B58623793 /* TripActivityAttributes.swift in Sources */,
+				A2144E5C00CCC32CB2A91310 /* Formatters.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		B50280778EB8E3856635AA00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = WandererWidget;
+			target = DBE152CDE16D12A675B6E989 /* WandererWidget */;
+			targetProxy = 277BD519FD0DE73FD31E7243 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		392B7291C3868E34B94B5A69 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 84LV7LHPNF;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WandererWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Offworld.Wanderer.WandererWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				VALIDATE_PRODUCT = YES;
+				WRAPPER_EXTENSION = appex;
+			};
+			name = Release;
+		};
+		3F6ABA243004A5120067044E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 84LV7LHPNF;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Wanderer/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = CAMERA_USAGE_DESCRIPTION;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Offworld.Wanderer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		3F6ABA253004A5120067044E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 84LV7LHPNF;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Wanderer/Info.plist;
+				INFOPLIST_KEY_NSCameraUsageDescription = CAMERA_USAGE_DESCRIPTION;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = arkit;
+				INFOPLIST_KEY_UIStatusBarHidden = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Offworld.Wanderer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		3F6ABA263004A5120067044E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = 84LV7LHPNF;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		3F6ABA273004A5120067044E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 84LV7LHPNF;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		9F185B43DD7298FAA4F4E16C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 84LV7LHPNF;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WandererWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = Offworld.Wanderer.WandererWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+				WRAPPER_EXTENSION = appex;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3F6ABA113004A5110067044E /* Build configuration list for PBXProject "Wanderer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F6ABA263004A5120067044E /* Debug */,
+				3F6ABA273004A5120067044E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		3F6ABA233004A5120067044E /* Build configuration list for PBXNativeTarget "Wanderer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3F6ABA243004A5120067044E /* Debug */,
+				3F6ABA253004A5120067044E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		88CE05EE4C0C5FFF72E40E93 /* Build configuration list for PBXNativeTarget "WandererWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				392B7291C3868E34B94B5A69 /* Release */,
+				9F185B43DD7298FAA4F4E16C /* Debug */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 3F6ABA0E3004A5110067044E /* Project object */;
+}
