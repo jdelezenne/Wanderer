@@ -121,9 +121,28 @@ struct ContentView: View {
 
     private var topStatusBar: some View {
         HStack(spacing: 12) {
-            Image(systemName: session.isTrackingTrip ? "figure.walk.circle.fill" : "map.circle.fill")
-                .font(.title2)
-                .foregroundStyle(session.isTrackingTrip ? .green : .blue)
+            Group {
+                if let appIcon {
+                    Image(uiImage: appIcon)
+                        .resizable()
+                        .scaledToFill()
+                } else {
+                    Image(systemName: "map.fill")
+                        .resizable()
+                        .scaledToFit()
+                        .padding(8)
+                        .foregroundStyle(.white)
+                        .background(.blue)
+                }
+            }
+                .frame(width: 38, height: 38)
+                .clipShape(Circle())
+                .overlay {
+                    Circle()
+                        .stroke(.white.opacity(0.65), lineWidth: 1)
+                }
+                .shadow(color: .black.opacity(0.12), radius: 2, y: 1)
+                .accessibilityHidden(true)
 
             VStack(alignment: .leading, spacing: 2) {
                 Text("Wanderer").font(.headline)
@@ -244,6 +263,17 @@ struct ContentView: View {
             return session.statusText
         }
         return areaStore.currentAreaName!
+    }
+
+    private var appIcon: UIImage? {
+        guard
+            let icons = Bundle.main.infoDictionary?["CFBundleIcons"] as? [String: Any],
+            let primaryIcon = icons["CFBundlePrimaryIcon"] as? [String: Any],
+            let iconFiles = primaryIcon["CFBundleIconFiles"] as? [String],
+            let iconName = iconFiles.last
+        else { return nil }
+
+        return UIImage(named: iconName)
     }
 
     private var availableNearbyPlaces: [NearbyPlace] {
