@@ -1,10 +1,11 @@
 import CoreLocation
 import MapKit
 import SwiftUI
+import SwiftData
 import UIKit
 
 struct ContentView: View {
-    @State private var session = ExplorationSession()
+    @State private var session: ExplorationSession
     @State private var cameraPosition: MapCameraPosition = .userLocation(
         fallback: .region(
             MKCoordinateRegion(
@@ -15,15 +16,40 @@ struct ContentView: View {
         )
     )
 
-    @State private var tripStore = TripStore()
-    @State private var collectionStore = CollectionStore()
-    @State private var fogStore = FogStore()
-    @State private var areaStore = AreaStore()
+    @State private var tripStore: TripStore
+    @State private var collectionStore: CollectionStore
+    @State private var fogStore: FogStore
+    @State private var areaStore: AreaStore
+    @State private var persistenceStatus: PersistenceStatus
     @State private var settings = AppSettings()
     @State private var visibleMapRect = MKMapRect.null
     @State private var isARViewEnabled = false
     @State private var tripRecap: TripRecap?
     @State private var showMenu = false
+
+    init(modelContext: ModelContext, persistenceStatus: PersistenceStatus) {
+        _session = State(initialValue: ExplorationSession(
+            modelContext: modelContext,
+            persistenceStatus: persistenceStatus
+        ))
+        _tripStore = State(initialValue: TripStore(
+            modelContext: modelContext,
+            persistenceStatus: persistenceStatus
+        ))
+        _collectionStore = State(initialValue: CollectionStore(
+            modelContext: modelContext,
+            persistenceStatus: persistenceStatus
+        ))
+        _fogStore = State(initialValue: FogStore(
+            modelContext: modelContext,
+            persistenceStatus: persistenceStatus
+        ))
+        _areaStore = State(initialValue: AreaStore(
+            modelContext: modelContext,
+            persistenceStatus: persistenceStatus
+        ))
+        _persistenceStatus = State(initialValue: persistenceStatus)
+    }
 
     var body: some View {
         ZStack {
@@ -37,12 +63,17 @@ struct ContentView: View {
 
                 ForEach(availableNearbyPlaces) { place in
                     Annotation(place.name, coordinate: place.coordinate, anchor: .center) {
-                        Circle()
-                            .fill(place.kind.color)
-                            .frame(width: 14, height: 14)
+                        Image(uiImage: place.kind.spriteImage)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 46, height: 46)
+                            .padding(3)
+                            .background(.ultraThinMaterial, in: Circle())
                             .overlay {
-                                Circle().stroke(.white, lineWidth: 2)
+                                Circle().stroke(place.kind.color.opacity(0.7), lineWidth: 1)
                             }
+                            .shadow(color: .black.opacity(0.24), radius: 5, y: 3)
+                            .accessibilityLabel("\(place.name), \(place.kind.label)")
                     }
                 }
             }
@@ -64,7 +95,9 @@ struct ContentView: View {
                     places: availableNearbyPlaces,
                     userLocation: session.currentLocation,
                     collectionStore: collectionStore,
-                    onCollect: { place in collectionStore.collect(place: place) }
+                    onCollect: { place in
+                        collectionStore.collect(place: place, areaID: areaStore.currentAreaID)
+                    }
                 )
                 .ignoresSafeArea()
                 .transition(.opacity)
@@ -117,6 +150,13 @@ struct ContentView: View {
         }
         .environment(tripStore)
         .environment(settings)
+        .alert(item: $persistenceStatus.problem) { problem in
+            Alert(
+                title: Text(problem.title),
+                message: Text(problem.message),
+                dismissButton: .default(Text("OK"))
+            )
+        }
     }
 
     private var topStatusBar: some View {
@@ -189,30 +229,23 @@ struct ContentView: View {
             .buttonStyle(.borderedProminent)
             .tint(.blue)
 
-            toggleButton(title: "AR", systemImage: "camera.viewfinder", isOn: isARViewEnabled) {
-                isARViewEnabled.toggle()
-            }
-
             if session.isTrackingTrip {
-                // Pause/Resume — manual pause independent of auto speed-pause.
                 let paused = session.isManuallyPaused || session.isSpeedPaused
-                toggleButton(
-                    title: "",
-                    systemImage: session.isManuallyPaused ? "play.fill" : "pause.fill",
-                    isOn: true,
-                    activeTint: paused ? .orange : .green
-                ) {
+                Button {
                     session.toggleManualPause()
+                } label: {
+                    Label(
+                        session.isManuallyPaused ? "Resume" : "Pause",
+                        systemImage: session.isManuallyPaused ? "play.fill" : "pause.fill"
+                    )
+                    .font(.headline)
+                    .frame(maxWidth: .infinity, minHeight: 48)
                 }
+                .buttonStyle(.borderedProminent)
+                .tint(paused ? .orange : .green)
                 .disabled(session.isSpeedPaused)
 
-                // Stop — ends the trip and saves it.
-                Button {
-                    if let recap = session.toggleTripTracking(), recap.distanceMeters > 0 {
-                        tripStore.save(recap)
-                        tripRecap = recap
-                    }
-                } label: {
+                Button(action: finishWalk) {
                     Image(systemName: "stop.fill")
                         .font(.headline)
                         .frame(minWidth: 48, minHeight: 48)
@@ -220,10 +253,25 @@ struct ContentView: View {
                 .buttonStyle(.borderedProminent)
                 .tint(.red)
             } else {
-                toggleButton(title: "Tracker", systemImage: "shoeprints.fill", isOn: false) {
-                    session.toggleTripTracking()
+                Button {
+                    _ = session.toggleTripTracking()
+                } label: {
+                    Label("Start Walk", systemImage: "figure.walk")
+                        .font(.headline)
+                        .frame(maxWidth: .infinity, minHeight: 48)
                 }
+                .buttonStyle(.borderedProminent)
+                .tint(.green)
             }
+
+            Button { isARViewEnabled.toggle() } label: {
+                Image(systemName: "camera.viewfinder")
+                    .font(.headline)
+                    .frame(minWidth: 48, minHeight: 48)
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(isARViewEnabled ? .green : .secondary)
+            .accessibilityLabel(isARViewEnabled ? "Close AR" : "Open AR")
         }
         .padding(8)
         .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8, style: .continuous))
@@ -240,22 +288,6 @@ struct ContentView: View {
                 .foregroundStyle(.secondary)
         }
         .frame(maxWidth: .infinity)
-    }
-
-    private func toggleButton(
-        title: String,
-        systemImage: String,
-        isOn: Bool,
-        activeTint: Color = .green,
-        action: @escaping () -> Void
-    ) -> some View {
-        Button(action: action) {
-            Label(title, systemImage: systemImage)
-                .font(.headline)
-                .frame(maxWidth: .infinity, minHeight: 48)
-        }
-        .buttonStyle(.borderedProminent)
-        .tint(isOn ? activeTint : .secondary)
     }
 
     private var statusSubtitle: String {
@@ -278,11 +310,43 @@ struct ContentView: View {
 
     private var availableNearbyPlaces: [NearbyPlace] {
         session.nearbyPlaces.filter {
-            !collectionStore.isCollectedToday(name: $0.name, kind: $0.kind)
+            !collectionStore.isCollectedToday($0)
+        }
+    }
+
+    private func finishWalk() {
+        guard var recap = session.toggleTripTracking() else { return }
+        guard recap.distanceMeters > 0 else {
+            session.clearPersistedTrip()
+            return
+        }
+
+        if recap.name.isEmpty { recap.name = defaultTripName }
+        if tripStore.save(recap) {
+            session.completedTripWasPersisted()
+            tripRecap = recap
+        }
+    }
+
+    private var defaultTripName: String {
+        if let area = areaStore.currentAreaName {
+            return "\(area) Walk"
+        }
+        if let landmark = session.nearbyPlaces.first {
+            return "Walk near \(landmark.name)"
+        }
+        let hour = Calendar.current.component(.hour, from: Date())
+        switch hour {
+        case 5..<12: return "Morning Walk"
+        case 12..<17: return "Afternoon Walk"
+        case 17..<22: return "Evening Walk"
+        default: return "Night Walk"
         }
     }
 }
 
 #Preview {
-    ContentView()
+    let container = try! WandererPersistence.makeContainer(inMemory: true)
+    ContentView(modelContext: container.mainContext, persistenceStatus: PersistenceStatus())
+        .modelContainer(container)
 }

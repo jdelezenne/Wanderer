@@ -32,125 +32,72 @@ enum NearbyPlaceKind: String, CaseIterable, Codable {
         }
     }
 
-    var color: Color {
+    var color: Color { Color(uiColor: accentColor) }
+
+    var accentColor: UIColor {
         switch self {
-        case .restaurant: return .orange
-        case .cafe:       return .brown
-        case .attraction: return .green
+        case .restaurant: return UIColor(red: 0.92, green: 0.39, blue: 0.12, alpha: 1)
+        case .cafe:       return UIColor(red: 0.62, green: 0.38, blue: 0.20, alpha: 1)
+        case .attraction: return UIColor(red: 0.10, green: 0.65, blue: 0.59, alpha: 1)
         }
     }
 
-    var spriteImage: UIImage { PixelArtSprite.image(for: self) }
-}
-
-// 16×16 pixel art sprites rendered at 8× scale (128×128 px, pixelated, no anti-aliasing)
-enum PixelArtSprite {
-    static func image(for kind: NearbyPlaceKind) -> UIImage {
-        let scale = 8
-        let size = 16
-        let format = UIGraphicsImageRendererFormat()
-        format.scale = 1
-        return UIGraphicsImageRenderer(size: CGSize(width: size * scale, height: size * scale), format: format).image { ctx in
-            let grid = pixels(for: kind)
-            for (row, cols) in grid.enumerated() {
-                for (col, hex) in cols.enumerated() {
-                    guard hex != 0 else { continue }
-                    ctx.cgContext.setFillColor(color(hex).cgColor)
-                    ctx.cgContext.fill(CGRect(x: col * scale, y: row * scale, width: scale, height: scale))
-                }
-            }
+    var assetName: String {
+        switch self {
+        case .restaurant: return "PlaceRestaurant"
+        case .cafe:       return "PlaceCafe"
+        case .attraction: return "PlaceAttraction"
         }
     }
 
-    private static func pixels(for kind: NearbyPlaceKind) -> [[UInt32]] {
-        switch kind {
-        case .restaurant: return restaurantGrid
-        case .cafe:       return cafeGrid
-        case .attraction: return attractionGrid
+    var fallbackSystemName: String {
+        switch self {
+        case .restaurant: return "fork.knife"
+        case .cafe:       return "cup.and.saucer.fill"
+        case .attraction: return "building.columns.fill"
         }
     }
 
-    private static func color(_ hex: UInt32) -> UIColor {
-        UIColor(
-            red:   CGFloat((hex >> 16) & 0xFF) / 255,
-            green: CGFloat((hex >>  8) & 0xFF) / 255,
-            blue:  CGFloat( hex        & 0xFF) / 255,
-            alpha: 1
-        )
+    var spriteImage: UIImage {
+        UIImage(named: assetName)
+            ?? UIImage(systemName: fallbackSystemName)?.withTintColor(accentColor, renderingMode: .alwaysOriginal)
+            ?? UIImage()
     }
-
-    // Orange background, white fork & knife
-    private static let restaurantGrid: [[UInt32]] = [
-        [0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0],
-        [0,        0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0],
-        [0,        0xE87722, 0xFFFFFF, 0,        0,        0xFFFFFF, 0,        0,        0,        0,        0xFFFFFF, 0,        0,        0xFFFFFF, 0xE87722, 0],
-        [0,        0xE87722, 0xFFFFFF, 0,        0,        0xFFFFFF, 0,        0,        0,        0,        0xFFFFFF, 0,        0,        0xFFFFFF, 0xE87722, 0],
-        [0,        0xE87722, 0xFFFFFF, 0,        0,        0xFFFFFF, 0,        0,        0,        0,        0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xE87722, 0],
-        [0,        0xE87722, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0,        0,        0,        0,        0xFFFFFF, 0,        0,        0xFFFFFF, 0xE87722, 0],
-        [0,        0xE87722, 0,        0,        0,        0xFFFFFF, 0,        0,        0,        0,        0xFFFFFF, 0,        0,        0xFFFFFF, 0xE87722, 0],
-        [0,        0xE87722, 0,        0,        0,        0xFFFFFF, 0,        0,        0,        0,        0xFFFFFF, 0,        0,        0xFFFFFF, 0xE87722, 0],
-        [0,        0xE87722, 0,        0,        0,        0xFFFFFF, 0,        0,        0,        0,        0xFFFFFF, 0,        0,        0xFFFFFF, 0xE87722, 0],
-        [0,        0xE87722, 0,        0,        0,        0xFFFFFF, 0,        0,        0,        0,        0xFFFFFF, 0,        0,        0xFFFFFF, 0xE87722, 0],
-        [0,        0xE87722, 0,        0,        0,        0xFFFFFF, 0,        0,        0,        0,        0xFFFFFF, 0,        0,        0xFFFFFF, 0xE87722, 0],
-        [0,        0xE87722, 0,        0,        0,        0xFFFFFF, 0,        0,        0,        0,        0,        0,        0,        0,        0xE87722, 0],
-        [0,        0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0xE87722, 0],
-        [0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0],
-        [0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0],
-        [0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0],
-    ]
-
-    // Brown background, white coffee cup
-    private static let cafeGrid: [[UInt32]] = [
-        [0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0],
-        [0,        0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0],
-        [0,        0x7B4F2E, 0,        0,        0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0,        0,        0,        0,        0x7B4F2E, 0],
-        [0,        0x7B4F2E, 0,        0,        0xFFFFFF, 0,        0,        0,        0,        0xFFFFFF, 0xFFFFFF, 0,        0,        0,        0x7B4F2E, 0],
-        [0,        0x7B4F2E, 0,        0,        0xFFFFFF, 0,        0,        0,        0,        0xFFFFFF, 0,        0xFFFFFF, 0,        0,        0x7B4F2E, 0],
-        [0,        0x7B4F2E, 0,        0,        0xFFFFFF, 0,        0,        0,        0,        0xFFFFFF, 0xFFFFFF, 0,        0,        0,        0x7B4F2E, 0],
-        [0,        0x7B4F2E, 0,        0,        0xFFFFFF, 0,        0,        0,        0,        0xFFFFFF, 0,        0,        0,        0,        0x7B4F2E, 0],
-        [0,        0x7B4F2E, 0,        0,        0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0,        0,        0,        0,        0x7B4F2E, 0],
-        [0,        0x7B4F2E, 0,        0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0,        0,        0,        0x7B4F2E, 0],
-        [0,        0x7B4F2E, 0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0x7B4F2E, 0],
-        [0,        0x7B4F2E, 0,        0,        0,        0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0,        0,        0,        0,        0,        0x7B4F2E, 0],
-        [0,        0x7B4F2E, 0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0x7B4F2E, 0],
-        [0,        0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0x7B4F2E, 0],
-        [0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0],
-        [0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0],
-        [0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0],
-    ]
-
-    // Green background, white 5-pointed star
-    private static let attractionGrid: [[UInt32]] = [
-        [0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0],
-        [0,        0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0],
-        [0,        0x2E8B57, 0,        0,        0,        0,        0,        0xFFFFFF, 0xFFFFFF, 0,        0,        0,        0,        0,        0x2E8B57, 0],
-        [0,        0x2E8B57, 0,        0,        0,        0,        0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0,        0,        0,        0,        0x2E8B57, 0],
-        [0,        0x2E8B57, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0x2E8B57, 0],
-        [0,        0x2E8B57, 0,        0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0,        0x2E8B57, 0],
-        [0,        0x2E8B57, 0,        0,        0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0,        0,        0x2E8B57, 0],
-        [0,        0x2E8B57, 0,        0,        0,        0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0xFFFFFF, 0,        0,        0,        0x2E8B57, 0],
-        [0,        0x2E8B57, 0,        0xFFFFFF, 0xFFFFFF, 0,        0,        0xFFFFFF, 0xFFFFFF, 0,        0,        0xFFFFFF, 0xFFFFFF, 0,        0x2E8B57, 0],
-        [0,        0x2E8B57, 0xFFFFFF, 0xFFFFFF, 0,        0,        0,        0xFFFFFF, 0xFFFFFF, 0,        0,        0,        0xFFFFFF, 0xFFFFFF, 0x2E8B57, 0],
-        [0,        0x2E8B57, 0xFFFFFF, 0,        0,        0,        0,        0xFFFFFF, 0xFFFFFF, 0,        0,        0,        0,        0xFFFFFF, 0x2E8B57, 0],
-        [0,        0x2E8B57, 0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0x2E8B57, 0],
-        [0,        0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0x2E8B57, 0],
-        [0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0],
-        [0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0],
-        [0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0,        0],
-    ]
 }
 
 struct NearbyPlace: Identifiable {
-    let id = UUID()
+    let id: String
+    let renderID = UUID()
     let name: String
     let coordinate: CLLocationCoordinate2D
     let kind: NearbyPlaceKind
     let distanceMeters: CLLocationDistance
+    let address: String?
+
+    init(
+        id: String? = nil,
+        name: String,
+        coordinate: CLLocationCoordinate2D,
+        kind: NearbyPlaceKind,
+        distanceMeters: CLLocationDistance,
+        address: String? = nil
+    ) {
+        self.id = id ?? Self.fallbackID(name: name, coordinate: coordinate, kind: kind)
+        self.name = name
+        self.coordinate = coordinate
+        self.kind = kind
+        self.distanceMeters = distanceMeters
+        self.address = address
+    }
+
+    private static func fallbackID(name: String, coordinate: CLLocationCoordinate2D, kind: NearbyPlaceKind) -> String {
+        "\(kind.rawValue)|\(name.lowercased())|\(String(format: "%.5f", coordinate.latitude))|\(String(format: "%.5f", coordinate.longitude))"
+    }
 
     static let previewPlaces: [NearbyPlace] = [
-        NearbyPlace(name: "Station Cafe",     coordinate: CLLocationCoordinate2D(latitude: 35.6817, longitude: 139.7669), kind: .cafe,       distanceMeters: 80),
-        NearbyPlace(name: "Garden Restaurant",coordinate: CLLocationCoordinate2D(latitude: 35.6804, longitude: 139.7684), kind: .restaurant, distanceMeters: 140),
-        NearbyPlace(name: "City Landmark",    coordinate: CLLocationCoordinate2D(latitude: 35.6822, longitude: 139.7691), kind: .attraction, distanceMeters: 210),
+        NearbyPlace(name: "Station Cafe", coordinate: CLLocationCoordinate2D(latitude: 35.6817, longitude: 139.7669), kind: .cafe, distanceMeters: 80),
+        NearbyPlace(name: "Garden Restaurant", coordinate: CLLocationCoordinate2D(latitude: 35.6804, longitude: 139.7684), kind: .restaurant, distanceMeters: 140),
+        NearbyPlace(name: "City Landmark", coordinate: CLLocationCoordinate2D(latitude: 35.6822, longitude: 139.7691), kind: .attraction, distanceMeters: 210),
     ]
 }
 
@@ -188,10 +135,12 @@ enum NearbyPlaceSearch {
             let response = try await MKLocalSearch(request: request).start()
             return response.mapItems.compactMap { item in
                 NearbyPlace(
+                    id: item.identifier?.rawValue,
                     name: item.name ?? kind.label,
                     coordinate: item.location.coordinate,
                     kind: kind,
-                    distanceMeters: item.location.distance(from: origin)
+                    distanceMeters: item.location.distance(from: origin),
+                    address: item.address?.fullAddress
                 )
             }
             .filter { $0.distanceMeters <= 1000 }
@@ -203,16 +152,16 @@ enum NearbyPlaceSearch {
     }
 }
 
-#Preview("Pixel Art Sprites") {
-    HStack(spacing: 24) {
+#Preview("Discovery Icons") {
+    HStack(spacing: 20) {
         ForEach(NearbyPlaceKind.allCases, id: \.rawValue) { kind in
             VStack(spacing: 8) {
                 Image(uiImage: kind.spriteImage)
-                    .interpolation(.none)
                     .resizable()
+                    .scaledToFit()
                     .frame(width: 96, height: 96)
                 Text(kind.label)
-                    .font(.caption)
+                    .font(.caption.weight(.semibold))
             }
         }
     }

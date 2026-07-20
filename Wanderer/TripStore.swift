@@ -1,74 +1,101 @@
 import Foundation
 import Observation
+import SwiftData
 
-@Observable
+@MainActor @Observable
 final class TripStore {
     private(set) var trips: [TripRecap] = []
-    // UUID string → photo local identifiers (saved after first recap view)
-    private(set) var tripPhotoIDs: [String: [String]] = [:]
 
-    private static var tripsURL: URL {
-        URL.documentsDirectory.appending(path: "trip_history.json")
-    }
-    private static var photoIDsURL: URL {
-        URL.documentsDirectory.appending(path: "trip_photo_ids.json")
-    }
+    @ObservationIgnored private let modelContext: ModelContext
+    @ObservationIgnored private let persistenceStatus: PersistenceStatus
 
-    init() {
-        load()
-        loadPhotoIDs()
+    init(modelContext: ModelContext, persistenceStatus: PersistenceStatus) {
+        self.modelContext = modelContext
+        self.persistenceStatus = persistenceStatus
+        reload()
     }
 
-    func save(_ recap: TripRecap) {
-        trips.insert(recap, at: 0)
-        persist()
+    @discardableResult
+    func save(_ recap: TripRecap) -> Bool {
+        do {
+            modelContext.insert(TripRecord(recap: recap))
+            for activeTrip in try modelContext.fetch(FetchDescriptor<ActiveTripRecord>()) {
+                modelContext.delete(activeTrip)
+            }
+            try modelContext.save()
+            reload()
+            return true
+        } catch {
+            modelContext.rollback()
+            persistenceStatus.report(error, operation: "Saving the trip")
+            return false
+        }
     }
 
     func delete(_ recap: TripRecap) {
-        trips.removeAll { $0.id == recap.id }
-        tripPhotoIDs.removeValue(forKey: recap.id.uuidString)
-        persist()
-        persistPhotoIDs()
+        guard let record = record(id: recap.id) else { return }
+        modelContext.delete(record)
+        guard commit(operation: "Deleting the trip") else { return }
+        reload()
     }
 
     func deleteAll() {
-        trips.removeAll()
-        tripPhotoIDs.removeAll()
-        persist()
-        persistPhotoIDs()
+        do {
+            try modelContext.delete(model: TripRecord.self)
+            try modelContext.save()
+            reload()
+        } catch {
+            persistenceStatus.report(error, operation: "Deleting trip history")
+        }
     }
 
     func updateMeta(id: UUID, name: String, notes: String) {
-        guard let idx = trips.firstIndex(where: { $0.id == id }) else { return }
-        trips[idx].name = name
-        trips[idx].notes = notes
-        persist()
+        guard let record = record(id: id) else { return }
+        record.name = name
+        record.notes = notes
+        guard commit(operation: "Updating the trip") else { return }
+        reload()
     }
 
     func savePhotoIDs(_ ids: [String], for tripID: UUID) {
-        tripPhotoIDs[tripID.uuidString] = ids
-        persistPhotoIDs()
+        guard let record = record(id: tripID) else { return }
+        record.photoIDs = ids
+        _ = commit(operation: "Saving trip photos")
     }
 
     func savedPhotoIDs(for tripID: UUID) -> [String] {
-        tripPhotoIDs[tripID.uuidString] ?? []
+        record(id: tripID)?.photoIDs ?? []
     }
 
-    private func load() {
-        guard let data = try? Data(contentsOf: Self.tripsURL) else { return }
-        trips = (try? JSONDecoder().decode([TripRecap].self, from: data)) ?? []
+    private func reload() {
+        do {
+            let descriptor = FetchDescriptor<TripRecord>(
+                sortBy: [SortDescriptor(\.startDate, order: .reverse)]
+            )
+            trips = try modelContext.fetch(descriptor).map(\.recap)
+        } catch {
+            persistenceStatus.report(error, operation: "Loading trip history")
+        }
     }
 
-    private func persist() {
-        try? JSONEncoder().encode(trips).write(to: Self.tripsURL)
+    private func record(id: UUID) -> TripRecord? {
+        do {
+            let descriptor = FetchDescriptor<TripRecord>(predicate: #Predicate { $0.id == id })
+            return try modelContext.fetch(descriptor).first
+        } catch {
+            persistenceStatus.report(error, operation: "Loading the trip")
+            return nil
+        }
     }
 
-    private func loadPhotoIDs() {
-        guard let data = try? Data(contentsOf: Self.photoIDsURL) else { return }
-        tripPhotoIDs = (try? JSONDecoder().decode([String: [String]].self, from: data)) ?? [:]
-    }
-
-    private func persistPhotoIDs() {
-        try? JSONEncoder().encode(tripPhotoIDs).write(to: Self.photoIDsURL)
+    private func commit(operation: String) -> Bool {
+        do {
+            try modelContext.save()
+            return true
+        } catch {
+            modelContext.rollback()
+            persistenceStatus.report(error, operation: operation)
+            return false
+        }
     }
 }

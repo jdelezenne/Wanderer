@@ -99,7 +99,6 @@
 				CC7C3FDE2D5F247F42F66FCF /* TripActivityAttributes.swift */,
 				25024396DB5FD1F1DCC753B8 /* Formatters.swift */,
 			);
-			name = Shared;
 			path = Shared;
 			sourceTree = "<group>";
 		};
@@ -138,7 +137,6 @@
 				78D9912563D6123B722DEE63 /* WandererWidgetLiveActivity.swift */,
 				8B9CD0E7944E526F9383DD52 /* Assets.xcassets */,
 			);
-			name = WandererWidget;
 			path = WandererWidget;
 			sourceTree = "<group>";
 		};

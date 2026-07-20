@@ -34,6 +34,7 @@ struct TripRecapView: View {
                 nameField
                 replayMap
                 statsGrid
+                dataQuality
                 notesField
                 photosSection
                 Text("\(recap.pathPointCount) location points recorded")
@@ -117,6 +118,24 @@ struct TripRecapView: View {
                             "speedometer")
             }
         }
+    }
+
+    private var dataQuality: some View {
+        VStack(alignment: .leading, spacing: 5) {
+            Label(recap.accuracySummary, systemImage: "location.circle")
+                .font(.caption.bold())
+            HStack(spacing: 12) {
+                Text("GPS \(Formatters.distance(recap.gpsDistanceMeters, imperial: settings.useImperial))")
+                if let pedometerDistance = recap.pedometerDistanceMeters {
+                    Text("Motion \(Formatters.distance(pedometerDistance, imperial: settings.useImperial))")
+                }
+            }
+            .font(.caption2.monospacedDigit())
+            .foregroundStyle(.secondary)
+        }
+        .padding(10)
+        .frame(maxWidth: .infinity, alignment: .leading)
+        .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 8))
     }
 
     private var notesField: some View {

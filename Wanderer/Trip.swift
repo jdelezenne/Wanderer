@@ -2,7 +2,7 @@ import CoreLocation
 import MapKit
 import SwiftUI
 
-struct CodableCoordinate: Codable {
+struct CodableCoordinate: Codable, Hashable {
     let latitude: Double
     let longitude: Double
 
@@ -21,38 +21,55 @@ struct CodableCoordinate: Codable {
     }
 }
 
-struct TripRecap: Identifiable, Codable {
+struct CodableLocationSample: Codable, Hashable {
+    let latitude: Double
+    let longitude: Double
+    let timestamp: Date
+    let horizontalAccuracy: Double
+    let speed: Double
+
+    init(_ location: CLLocation) {
+        latitude = location.coordinate.latitude
+        longitude = location.coordinate.longitude
+        timestamp = location.timestamp
+        horizontalAccuracy = location.horizontalAccuracy
+        speed = location.speed
+    }
+
+    var location: CLLocation {
+        CLLocation(
+            coordinate: CLLocationCoordinate2D(latitude: latitude, longitude: longitude),
+            altitude: 0,
+            horizontalAccuracy: horizontalAccuracy,
+            verticalAccuracy: -1,
+            course: -1,
+            speed: speed,
+            timestamp: timestamp
+        )
+    }
+
+    var coordinate: CLLocationCoordinate2D { location.coordinate }
+}
+
+struct TripRecap: Identifiable {
     let id: UUID
     let startDate: Date
     let steps: Int
     let distanceMeters: Double
     let elapsedSeconds: TimeInterval
     let averageSpeedMetersPerSecond: Double
+    let gpsDistanceMeters: Double
+    let pedometerDistanceMeters: Double?
     var name: String
     var notes: String
     private let coordinateData: [CodableCoordinate]
+    private let locationSamples: [CodableLocationSample]
+
+    var codableCoordinates: [CodableCoordinate] { coordinateData }
+    var codableLocationSamples: [CodableLocationSample] { locationSamples }
 
     var coordinates: [CLLocationCoordinate2D] {
         coordinateData.map(\.asCLLocationCoordinate2D)
-    }
-
-    enum CodingKeys: String, CodingKey {
-        case id, startDate, steps, distanceMeters, elapsedSeconds,
-             averageSpeedMetersPerSecond, name, notes, coordinateData
-    }
-
-    // Custom decode so existing saved trips (without name/notes) still load fine.
-    init(from decoder: Decoder) throws {
-        let c = try decoder.container(keyedBy: CodingKeys.self)
-        id = try c.decode(UUID.self, forKey: .id)
-        startDate = try c.decode(Date.self, forKey: .startDate)
-        steps = try c.decode(Int.self, forKey: .steps)
-        distanceMeters = try c.decode(Double.self, forKey: .distanceMeters)
-        elapsedSeconds = try c.decode(TimeInterval.self, forKey: .elapsedSeconds)
-        averageSpeedMetersPerSecond = try c.decode(Double.self, forKey: .averageSpeedMetersPerSecond)
-        name = (try? c.decodeIfPresent(String.self, forKey: .name)) ?? ""
-        notes = (try? c.decodeIfPresent(String.self, forKey: .notes)) ?? ""
-        coordinateData = try c.decode([CodableCoordinate].self, forKey: .coordinateData)
     }
 
     @MainActor
@@ -63,6 +80,9 @@ struct TripRecap: Identifiable, Codable {
         elapsedSeconds: TimeInterval,
         averageSpeedMetersPerSecond: Double,
         coordinates: [CLLocationCoordinate2D],
+        locationSamples: [CodableLocationSample] = [],
+        gpsDistanceMeters: Double = 0,
+        pedometerDistanceMeters: Double? = nil,
         name: String = "",
         notes: String = ""
     ) {
@@ -72,12 +92,51 @@ struct TripRecap: Identifiable, Codable {
         self.distanceMeters = distanceMeters
         self.elapsedSeconds = elapsedSeconds
         self.averageSpeedMetersPerSecond = averageSpeedMetersPerSecond
+        self.gpsDistanceMeters = gpsDistanceMeters
+        self.pedometerDistanceMeters = pedometerDistanceMeters
         self.name = name
         self.notes = notes
         coordinateData = coordinates.map(CodableCoordinate.init)
+        self.locationSamples = locationSamples
+    }
+
+    init(
+        id: UUID,
+        startDate: Date,
+        steps: Int,
+        distanceMeters: Double,
+        elapsedSeconds: TimeInterval,
+        averageSpeedMetersPerSecond: Double,
+        coordinates: [CodableCoordinate],
+        locationSamples: [CodableLocationSample],
+        gpsDistanceMeters: Double,
+        pedometerDistanceMeters: Double?,
+        name: String,
+        notes: String
+    ) {
+        self.id = id
+        self.startDate = startDate
+        self.steps = steps
+        self.distanceMeters = distanceMeters
+        self.elapsedSeconds = elapsedSeconds
+        self.averageSpeedMetersPerSecond = averageSpeedMetersPerSecond
+        self.gpsDistanceMeters = gpsDistanceMeters
+        self.pedometerDistanceMeters = pedometerDistanceMeters
+        self.name = name
+        self.notes = notes
+        coordinateData = coordinates
+        self.locationSamples = locationSamples
     }
 
     var pathPointCount: Int { coordinateData.count }
+
+    var accuracySummary: String {
+        guard !locationSamples.isEmpty else { return "Limited GPS data" }
+        let averageAccuracy = locationSamples.map(\.horizontalAccuracy).reduce(0, +) / Double(locationSamples.count)
+        if averageAccuracy <= 10, pedometerDistanceMeters != nil { return "High confidence · GPS + motion" }
+        if averageAccuracy <= 25 { return "Good confidence · GPS" }
+        return "Low confidence · weak GPS"
+    }
 
     var formattedDate: String {
         let calendar = Calendar.current

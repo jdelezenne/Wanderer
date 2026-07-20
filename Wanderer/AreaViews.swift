@@ -88,7 +88,7 @@ struct AreaRow: View {
                 Text("\(area.visitCount)")
                     .font(.headline.monospacedDigit())
                     .foregroundStyle(.green)
-                Text("visits")
+                Text(area.visitCount == 1 ? "visit" : "visits")
                     .font(.caption2)
                     .foregroundStyle(.secondary)
             }

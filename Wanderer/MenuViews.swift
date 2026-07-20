@@ -50,6 +50,7 @@ struct AppMenuView: View {
                     showDeleteConfirmation = true
                 } label: {
                     Label("Delete All Trips", systemImage: "trash")
+                        .foregroundStyle(.red)
                 }
                 .disabled(tripStore.trips.isEmpty)
             }
@@ -80,14 +81,21 @@ struct CollectionView: View {
                         ForEach(kindItems) { item in
                             HStack(spacing: 12) {
                                 Image(uiImage: kind.spriteImage)
-                                    .interpolation(.none)
                                     .resizable()
+                                    .scaledToFit()
                                     .frame(width: 36, height: 36)
-                                    .background(kind.color, in: RoundedRectangle(cornerRadius: 6))
+                                    .padding(4)
+                                    .background(kind.color.opacity(0.12), in: RoundedRectangle(cornerRadius: 9, style: .continuous))
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(item.name).font(.body)
-                                    Text(item.collectedDate, style: .relative)
+                                    Text(item.address ?? "Discovered \(item.lastDiscoveredAt.formatted(date: .abbreviated, time: .omitted))")
                                         .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                                Spacer()
+                                if item.discoveryCount > 1 {
+                                    Text("×\(item.discoveryCount)")
+                                        .font(.caption.bold().monospacedDigit())
                                         .foregroundStyle(.secondary)
                                 }
                             }
